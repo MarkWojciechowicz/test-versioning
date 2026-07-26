@@ -29,12 +29,6 @@ jobs:
         id: semantic
         with:
           tag_prefix: "api_v"
-          major_pattern: "/!:|BREAKING CHANGE:/"
-          minor_pattern: "/feat(\\(.+\\))?:/"
-          bump_each_commit_patch_pattern: "MYPROJ-\\d+"
-          version_format: "${major}.${minor}.${patch}"
-          search_commit_body: true
-          debug: true
 
       - name: Create and push tag
         if: ${{ steps.semantic.outputs.changed == 'true' }}
