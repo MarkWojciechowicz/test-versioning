@@ -26,10 +26,17 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: paulhatch/semantic-version@v5.4.0
+        id: semantic
         with:
           namespace: api
           tag_prefix: "v"
           major_pattern: "/!:|BREAKING CHANGE:/"
           minor_pattern: "/feat(\\(.+\\))?:/"
-          version_format: "${major}.${minor}.${patch}-prerelease${increment}"
+          version_format: "${major}.${minor}.${patch}"
           bump_each_commit: true
+
+      - name: Create and push tag
+        if: ${{ steps.semantic.outputs.changed == 'true' }}
+        run: |
+          git tag ${{ steps.semantic.outputs.version_tag }}
+          git push origin ${{ steps.semantic.outputs.version_tag }}
