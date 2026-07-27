@@ -31,10 +31,13 @@ jobs:
           tag_prefix: "api_v"
           major_pattern: "/!:|BREAKING CHANGE:/"
           minor_pattern: "/feat(\\(.+\\))?:/"
+          bump_each_commit_patch_pattern: "MYPROJ-\\d+"
+          version_from_branch: true
           version_format: "${major}.${minor}.${patch}"
           search_commit_body: true
 
       - name: Create and push tag
+        # this will always be true unless change_path was specified.  That would be the case for a mono repo
         if: ${{ steps.semantic.outputs.changed == 'true' }}
         run: |
           git config user.name "github-actions[bot]"
@@ -43,3 +46,4 @@ jobs:
           git push origin ${{ steps.semantic.outputs.version_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
