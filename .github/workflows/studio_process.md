@@ -1,9 +1,9 @@
 ```mermaid
 graph TD
-    subgraph Local["🖥️ Local"]
-        A["Develop on Local Container"]
+    subgraph Local["Local"]
+        A["Develop on Branch"]
         C["Github Action"]
-        A -->|commit triggers| C
+        A -->|PR to main | C
         C -->|pushes| D["Container Registry"]
     end
     
