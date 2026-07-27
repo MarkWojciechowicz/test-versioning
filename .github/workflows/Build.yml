@@ -30,6 +30,7 @@ jobs:
         with:
           tag_prefix: "api_v"
           major_pattern: "/!:|BREAKING CHANGE:/"
+          minor_pattern: "/feat(\\(.+\\))?:/"
           version_format: "${major}.${minor}.${patch}"
           search_commit_body: true
 
