@@ -29,18 +29,8 @@ jobs:
         id: semantic
         with:
           tag_prefix: "api_v"
-          major_pattern: "/!:|BREAKING CHANGE:/"
-          minor_pattern: "/feat(\\(.+\\))?:/"
-          bump_each_commit_patch_pattern: "MYPROJ-\\d+"
-          version_from_branch: true
-          branch: ${{ github.head_ref || github.ref_name }}
           version_format: "${major}.${minor}.${patch}"
           search_commit_body: true
-          debug: true
-      
-      - name: Pretty-print semantic debug JSON
-        run: |
-          echo '${{ steps.semantic.outputs.debug_output }}' | jq .
 
       - name: Create and push tag
         # this will always be true unless change_path was specified.  That would be the case for a mono repo
