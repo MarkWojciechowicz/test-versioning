@@ -36,6 +36,10 @@ jobs:
           branch: ${{ github.head_ref || github.ref_name }}
           version_format: "${major}.${minor}.${patch}"
           search_commit_body: true
+          debug: true
+      
+      - name: Dump semantic-version debug
+        run: printf '%s\n' "${{ steps.semantic.outputs.debug_output }}"
 
       - name: Create and push tag
         # this will always be true unless change_path was specified.  That would be the case for a mono repo
@@ -43,8 +47,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag ${{ steps.semantic.outputs.version_tag }}
-          git push origin ${{ steps.semantic.outputs.version_tag }}
+          TAG=${{ steps.semantic.outputs.version_tag }}
+          echo "Checking for existing tag $TAG on origin..."
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+            echo "Tag $TAG already exists on origin — skipping create/push"
+            exit 0
+          fi
+          git tag "$TAG"
+          git push origin "$TAG"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
