@@ -29,6 +29,8 @@ jobs:
         id: semantic
         with:
           tag_prefix: "api_v"
+          version_format: "${major}.${minor}.${patch}"
+          search_commit_body: true
 
       - name: Create and push tag
         if: ${{ steps.semantic.outputs.changed == 'true' }}
