@@ -1,6 +1,6 @@
 ```mermaid
 graph TD
-    subgraph Local["🖥️ Local"]
+    subgraph Local["Local"]
         A["Develop on Branch"]
         C["Github Action"]
         A -->|PR to main | C
@@ -23,4 +23,5 @@ graph TD
     
     Local -->| | Development
     Development --> | | Production
+
 ```
