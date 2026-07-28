@@ -1,0 +1,23 @@
+name: Deploy to Target Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Deployment target (production, staging, sandbox_1, etc.)'
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+          - sandbox_1
+          - sandbox_2
+          - sandbox_3
+          - dev
+jobs:
+  approval:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.target }}
+    steps:
+      - run: echo "Deployment to ${{ github.event.inputs.target }} approved"
